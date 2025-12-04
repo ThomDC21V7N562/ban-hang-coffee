@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Sản Phẩm Mới</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <a href="desktop-pos.html" class="back-btn" title="Quay lại">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+            <h2>Thêm Sản Phẩm Mới</h2>
+        </header>
+
+        <form id="add-product-form">
+            
+            <div class="form-group upload-group">
+                <label for="product-image">Hình Ảnh Sản Phẩm:</label>
+                <input type="file" id="product-image" name="image" accept="image/*" style="display: none;">
+                <div class="image-preview" id="image-preview">
+                    <i class="fas fa-camera"></i>
+                    <span>Tải ảnh lên</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-name">Tên Sản Phẩm:</label>
+                <input type="text" id="product-name" name="name" placeholder="Ví dụ: Latte Nóng/Lạnh" required>
+            </div>
+
+            <div class="form-group">
+                <label for="product-code">Mã Sản Phẩm (SKU):</label>
+                <input type="text" id="product-code" name="code" placeholder="Ví dụ: SP009" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-category">Danh Mục:</label>
+                <select id="product-category" name="category" required>
+                    <option value="">Chọn Danh Mục</option>
+                    <option value="caphe">Cà Phê</option>
+                    <option value="tra_traicay">Trà/Trái Cây</option>
+                    <option value="sinhto">Sinh Tố</option>
+                    <option value="banh_annhe">Bánh/Ăn nhẹ</option>
+                    <option value="khac">Khác</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="product-price">Giá Bán (VNĐ):</label>
+                <input type="number" id="product-price" name="price" placeholder="Ví dụ: 45000" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="product-description">Mô Tả (Tùy chọn):</label>
+                <textarea id="product-description" name="description" rows="3" placeholder="Mô tả ngắn về sản phẩm..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn"><i class="fas fa-save"></i> Lưu Sản Phẩm</button>
+        </form>
+    </div>
+
+    <script>
+        // 1. Lấy các phần tử DOM cần thiết
+        const productForm = document.getElementById('add-product-form');
+        const imageInput = document.getElementById('product-image');
+        const imagePreview = document.getElementById('image-preview');
+
+        // --- Hàm Xử lý Xem trước Ảnh (Image Preview Handler) ---
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            
+            // Xóa nội dung hiện tại của preview
+            imagePreview.innerHTML = '';
+            imagePreview.style.backgroundImage = 'none';
+
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Hiển thị ảnh vừa chọn làm background
+                    imagePreview.style.backgroundImage = `url(${e.target.result})`;
+                    imagePreview.style.backgroundSize = 'cover';
+                    imagePreview.style.backgroundPosition = 'center';
+                }
+                
+                reader.readAsDataURL(file);
+            } else {
+                // Quay về trạng thái ban đầu nếu không chọn file
+                imagePreview.innerHTML = '<i class="fas fa-camera"></i><span>Tải ảnh lên</span>';
+            }
+        });
+
+
+        // --- Hàm Xử lý Gửi Form (Form Submission Handler) ---
+        productForm.addEventListener('submit', function(event) {
+            // Ngăn chặn hành vi mặc định của form (tránh tải lại trang)
+            event.preventDefault();
+        // 1. Thu thập dữ liệu
+        const name = document.getElementById('product-name').value;
+        const code = document.getElementById('product-code').value;
+        const category = document.getElementById('product-category').value;
+        const price = document.getElementById('product-price').value;
+        const description = document.getElementById('product-description').value;
+        const imageFile = imageInput.files[0];
+
+        // Tạo ID đơn giản (thay thế cho ID từ Database)
+        const newProductId = Date.now();
+
+        // 2. Chuẩn bị đối tượng sản phẩm mới
+    const newProduct = {
+        id: newProductId,
+        name: name,
+        code: code,
+        category: category,
+        price: parseFloat(price), // Chuyển giá thành số
+        description: description,
+        // Lưu trữ hình ảnh dưới dạng Base64 để hiển thị (chỉ dùng cho mục đích Local Storage)
+        imageUrl: imagePreview.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, '$1') || '', 
+        // Nếu không có ảnh, dùng chuỗi rỗng
+    };
+
+    // 3. Lấy danh sách sản phẩm hiện có từ Local Storage
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+    
+    // 4. Thêm sản phẩm mới vào danh sách
+    products.push(newProduct);
+
+    // 5. Lưu lại danh sách đã cập nhật vào Local Storage
+    localStorage.setItem('products', JSON.stringify(products));
+    
+    console.log("Sản phẩm đã được lưu vào Local Storage:", newProduct);
+
+    // 6. Thông báo và Chuyển hướng về trang bán hàng
+    alert('✅ Lưu sản phẩm thành công và đã cập nhật Local Storage!');
+    
+    // CHUYỂN HƯỚNG về trang bán hàng để nó tự động tải lại dữ liệu
+    window.location.href = 'desktop-pos.html';
+    
+    // Sử dụng FormData để thu thập tất cả dữ liệu, bao gồm cả file
+            const formData = new FormData(productForm);
+            
+            // Tạo đối tượng JSON/JavaScript để xem dữ liệu (Nếu không có file ảnh)
+            const productData = {};
+            for (const [key, value] of formData.entries()) {
+                if (key !== 'image' || typeof value === 'string') { // Lấy text data
+                    productData[key] = value;
+                }
+            }
+            
+            // Kiểm tra dữ liệu
+            console.log("--- Dữ liệu Sản Phẩm đã Thu thập (Text Fields) ---");
+            console.log(productData);
+            
+            const productImage = formData.get('image');
+            if (productImage && productImage.name) {
+                console.log("File ảnh đã sẵn sàng để upload: ", productImage.name);
+            } else {
+                console.log("Không có ảnh nào được chọn.");
+            }
+
+            // *******************************************************************
+            // ** ĐÂY LÀ CHỖ BẠN CẦN THÊM LOGIC GỬI DỮ LIỆU LÊN SERVER CỦA BẠN **
+            // *******************************************************************
+            
+            // Ví dụ dùng Fetch API để gửi dữ liệu (Gửi FormData trực tiếp)
+            /*
+            fetch('URL_API_CỦA_BẠN/products', {
+                method: 'POST',
+                body: formData // Gửi FormData trực tiếp để server xử lý cả file và text
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Lưu sản phẩm thành công!');
+                // Bạn có thể chuyển hướng về trang chính: window.location.href = 'trang_chinh.html';
+            })
+            .catch(error => {
+                console.error('Lỗi khi lưu sản phẩm:', error);
+                alert('Lỗi: Không thể lưu sản phẩm.');
+            });
+            */
+            
+            // Thông báo giả lập
+            alert('Đã thu thập dữ liệu thành công! (Kiểm tra Console để xem chi tiết)');
+        });
+    </script>
+</body>
+</html>

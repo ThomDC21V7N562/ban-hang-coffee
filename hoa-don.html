@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Hóa Đơn - Thống Kê</title>
+    <link rel="stylesheet" href="hoa-don.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="header-main">
+        <header class="page-header">
+            <a href="desktop-pos.html" class="back-to-pos-btn" title="Quay về Bán hàng">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1>Hóa Đơn</h1>
+            <div class="header-actions">
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn"><i class="fas fa-sort-amount-down-alt"></i></button>
+            </div>
+        </header>
+    </div>
+
+    <main class="invoice-list-container">
+        <div class="stats-filter-bar">
+            <div class="time-filter-dropdown">
+                <button class="time-filter-btn" id="time-filter-btn">
+                    Tháng này <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="time-filter-menu" id="time-filter-menu">
+                    <button data-filter="all">Toàn thời gian</button> 
+                    <button data-filter="today">Hôm nay</button>
+                    <button data-filter="yesterday">Hôm qua</button>
+                    <button data-filter="last-7-days">7 ngày qua</button>
+                    <button data-filter="this-month" class="active">Tháng này</button>
+                    <button data-filter="last-month">Tháng trước</button>
+                    <button data-filter="custom">Tùy chỉnh...</button>
+                </div>
+            </div>
+
+            <div class="total-stats">
+                <div class="total-summary">
+                    <span class="total-stats-label">Tổng tiền hàng</span>
+                    <span class="total-stats-amount" id="total-revenue">0đ</span>
+                </div>
+                <span class="total-count" id="invoice-count">0 hóa đơn</span>
+            </div>
+        </div>
+
+        <!-- Hiển thị danh sách hóa đơn -->
+        <div id="invoice-list-display">
+            <!-- Các hóa đơn sẽ được hiển thị ở đây -->
+        </div>
+    </main>
+
+    <script src="hoa-don.js"></script> 
+</body>
+</html>

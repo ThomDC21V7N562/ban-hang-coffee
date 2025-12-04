@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - Kiểu Nội Coffee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+        .login-box h1 {
+            color: #4a2c2a; /* Màu nâu đậm */
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            letter-spacing: 3px;
+        }
+        .login-box p {
+            margin-bottom: 25px;
+            color: #795548;
+        }
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-box button {
+            background-color: #795548;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+        }
+        .login-box button:hover {
+            background-color: #5d4037;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h1>KIỂU NỘI COFFEE</h1>
+        <p>Hệ thống Quản lý Bán hàng (POS)</p>
+
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Tên đăng nhập (admin/nhanvien)" required>
+            <input type="password" id="password" placeholder="Mật khẩu" required>
+            
+            <p id="error-message"></p>
+
+            <button type="submit">Đăng Nhập</button>
+        </form>
+    </div>
+
+    <script src="login.js"></script> 
+</body>
+</html>
