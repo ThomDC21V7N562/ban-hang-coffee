@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Khách Hàng</title>
+    <link rel="stylesheet" href="customer-form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="form-container">
+        <header class="form-header">
+           <a href="desktop-pos.html" class="back-btn"><i class="fas fa-times"></i></a>
+            <h1>Thêm khách hàng</h1>
+            <button class="save-btn">Lưu</button>
+        </header>
+
+        <main class="form-main">
+            <div class="profile-pic-container">
+                <div class="profile-pic-placeholder">
+                    <i class="fas fa-user"></i>
+                    <i class="fas fa-camera camera-icon"></i>
+                </div>
+            </div>
+
+            <form class="customer-form">
+                <div class="input-group">
+                    <label for="full-name">Họ và tên <span class="required">*</span></label>
+                    <input type="text" id="full-name" placeholder="" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="phone-1">Số điện thoại</label>
+                    <input type="tel" id="phone-1" placeholder="">
+                </div>
+
+                <div class="input-group">
+                    <label for="phone-2">Số điện thoại 2</label>
+                    <input type="tel" id="phone-2" placeholder="">
+                </div>
+
+                <div class="grid-group">
+                    <div class="input-group">
+                        <label for="dob">Ngày sinh</label>
+                        <div class="input-with-icon">
+                            <input type="date" id="dob">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="gender">Giới tính</label>
+                        <div class="custom-select">
+                            <select id="gender">
+                                <option value="">Chọn giới tính</option>
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="customer-code">Mã khách hàng (Mã tự động)</label>
+                    <input type="text" id="customer-code" value="KH-AUTO-001" readonly>
+                </div>
+            </form>
+
+            <div class="section-title">Địa chỉ</div>
+            <div class="section-title">Liên hệ</div>
+            <div class="section-title">Thông tin xuất hoá đơn</div>
+            <div class="section-title">Ghi chú</div>
+
+        </main>
+    </div>
+    <script src="add-customer.js"></script>
+</body>
+</html>

@@ -1,0 +1,544 @@
+/* Thiết lập cơ bản */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    height: 100%;
+}
+
+.pos-container {
+    display: flex;
+    height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- CỘT TRÁI: DANH SÁCH SẢN PHẨM --- */
+.col-left {
+    flex: 3; /* Chiếm 60% màn hình */
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Khu vực Header Đầy đủ (Tìm kiếm, Khách hàng, Lọc) */
+.panel-header-full {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    background-color: #fff;
+}
+
+/* Hàng 1: Tìm kiếm và các nút */
+.search-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-actions-row .search-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f7f7f7; 
+}
+
+.search-actions-row .icon-btn-box {
+    text-decoration: none; 
+    background-color: #f0f0f0;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #555;
+    font-size: 18px;
+    transition: background-color 0.2s;
+}
+
+.search-actions-row .icon-btn-box:hover {
+    background-color: #e0e0e0;
+}
+
+/* Hàng 2: Lọc Khách hàng và Bảng giá */
+.filter-customer-row {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    padding: 5px 0;
+}
+
+.customer-select,
+.price-list-select {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    color: #888; 
+    cursor: pointer;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.customer-select.active {
+    color: #000; 
+    font-weight: bold;
+}
+
+.customer-select.active::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; 
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #007bff;
+    border-radius: 2px;
+}
+
+.customer-select i,
+.price-list-select i {
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+/* Icon Lọc Nâng Cao */
+.filter-icon-menu {
+    margin-left: auto; 
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+}
+
+
+/* Thanh Danh mục */
+.category-tabs {
+    padding: 10px 15px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid #eee;
+    overflow-x: auto;
+}
+
+.tab-btn {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Lưới Sản phẩm */
+.product-grid {
+    flex-grow: 1;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tự động chia cột */
+    gap: 15px;
+    overflow-y: auto;
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 10px; /* Điều chỉnh padding */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.product-item:hover {
+    background-color: #e0f7ff;
+    transform: translateY(-2px);
+}
+
+.product-item i {
+    font-size: 30px;
+    margin-bottom: 5px;
+    color: #8B4513; /* Màu nâu cà phê */
+}
+
+.product-item .price {
+    font-weight: bold;
+    color: #4CAF50; /* Màu xanh lá cho giá */
+    font-size: 16px; /* Tăng kích thước giá */
+    margin-top: 8px;
+}
+
+.product-id-code {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+    display: block; 
+    text-align: center;
+}
+
+
+/* --- CỘT PHẢI: CHI TIẾT ĐƠN HÀNG --- */
+.col-right {
+    flex: 2; /* Chiếm 40% màn hình */
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.order-list-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#current-order-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Kiểu cho từng món trong đơn hàng */
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.item-name {
+    flex-grow: 1;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 10px;
+}
+
+.item-quantity span {
+    font-weight: bold;
+}
+
+.qty-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- TỔNG KẾT VÀ THANH TOÁN --- */
+.order-summary-box {
+    border-top: 2px solid #ccc;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.summary-row.total {
+    font-size: 24px;
+    color: #d9534f; /* Màu đỏ cho Tổng cộng */
+}
+
+.checkout-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto; 
+}
+
+.action-btn {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-btn.secondary {
+    background-color: #f0ad4e;
+    color: white;
+    flex: 1;
+}
+
+.action-btn.primary {
+    background-color: #5cb85c; /* Màu xanh lá cho Thanh toán */
+    color: white;
+    flex: 2; 
+
+}
+
+/* Navbar cố định dưới cùng (Dùng chung cho mobile, ẩn trên desktop POS) */
+.mobile-navbar {
+    display: none; /* Mặc định ẩn trên Desktop POS */
+}
+
+@media (max-width: 768px) {
+    .mobile-navbar {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        border-top: 1px solid #ccc;
+        justify-content: space-around;
+        padding: 5px 0;
+        z-index: 1000;
+    }
+    
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #888;
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    .nav-item i {
+        font-size: 20px;
+        margin-bottom: 2px;
+    }
+
+    .nav-item.active {
+        color: #007bff;
+        font-weight: bold;
+    }
+}
+/* Styling cho khu vực chọn khách hàng */
+.customer-selection-container {
+    padding: 10px;
+}
+
+/* Khu vực hiển thị tên khách hàng đã chọn */
+.customer-display-area {
+    display: flex;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #007bff; /* Màu xanh nổi bật */
+    margin-bottom: 10px;
+}
+.customer-display-area i.fas.fa-user {
+    margin-right: 8px;
+    font-size: 1.2em;
+}
+#clear-customer-btn {
+    margin-left: 10px;
+    background: none;
+    border: none;
+    color: #dc3545; /* Màu đỏ cho nút xóa */
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Thanh tìm kiếm khách hàng */
+.customer-search-area {
+    position: relative;
+}
+
+#customer-search-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Danh sách kết quả tìm kiếm (Dropdown) */
+.customer-search-results-dropdown {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ced4da;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10; /* Đảm bảo nó nằm trên các thành phần khác */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 0 0 4px 4px;
+    display: none; /* Mặc định ẩn, JS sẽ hiện */
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.search-result-item:hover {
+    background-color: #e9ecef; /* Màu nền khi rê chuột */
+    color: #0056b3;
+}
+
+.search-result-item i.fas.fa-user-tag {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+.no-results {
+    padding: 10px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.customer-display-area {
+    /* Quan trọng: Bật Flexbox để căn chỉnh các phần tử con */
+    display: flex; 
+    
+    /* Căn chỉnh các phần tử theo chiều dọc (giữa) */
+    align-items: center; 
+    
+    /* Thiết lập padding, border, background theo thiết kế của bạn */
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+#customer-display {
+    /* Cho phép tên khách hàng chiếm hết không gian giữa */
+    flex-grow: 1; 
+    
+    /* Thêm khoảng cách sau tên khách hàng */
+    margin-right: 10px; 
+}
+
+/* Định dạng chung cho các nút icon */
+.icon-btn-box {
+    text-decoration: none; /* Bỏ gạch chân nếu là thẻ <a> */
+    color: #333; /* Màu icon */
+    padding: 0 5px; /* Khoảng cách xung quanh icon */
+    cursor: pointer;
+    /* Có thể thêm margin-left nếu muốn các nút icon cách nhau */
+    margin-left: 5px; 
+}
+
+/* Định dạng cho nút xóa */
+#clear-customer-btn {
+    border: none;
+    background: none;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+}
+
+.category-bar {
+    display: flex; /* Bật Flexbox */
+    align-items: center; /* Căn chỉnh các phần tử giữa theo chiều dọc */
+    padding: 10px 20px;
+    border-bottom: 1px solid #eee; /* Đường kẻ dưới (tùy chọn) */
+}
+
+.category-btn {
+    /* Định dạng chung cho các nút danh mục */
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap; /* Ngăn không cho chữ xuống dòng */
+    /* ... các style khác (màu sắc, font) ... */
+}
+
+/* Quan trọng: Đẩy dấu cộng sang phải */
+.add-item-btn {
+    /* Đẩy phần tử này sang phải cùng */
+    margin-left: auto; 
+    
+    /* Định dạng cho dấu cộng */
+    font-size: 24px;
+    color: rgb(107, 173, 235); /* Màu đỏ như trong hình */
+    text-decoration: none;
+    cursor: pointer;
+    padding: 5px; /* Để dễ click hơn */
+}
+/* --- CSS Chính cho Dòng Nhập Giảm giá --- */
+.discount-control-row {
+    padding: 10px 0; /* Giữ khoảng đệm trên dưới */
+    border-top: 1px solid #eee; /* Đường kẻ phân cách */
+    
+    /* Căn chỉnh chính */
+    display: flex;
+    justify-content: space-between; /* Đẩy hai bên ra xa nhau */
+    align-items: center; /* CĂN GIỮA TUYỆT ĐỐI THEO CHIỀU DỌC */
+}
+
+.discount-input-group {
+    /* Nhóm Input và Button */
+    display: flex;
+    align-items: center; /* CĂN GIỮA TUYỆT ĐỐI */
+    gap: 5px; /* Khoảng cách giữa input và button */
+}
+
+/* --- Định kiểu riêng cho Input và Button để đồng bộ chiều cao --- */
+
+/* Thiết lập chiều cao và padding cụ thể cho Input */
+#discount-percent-input {
+    width: 60px; 
+    text-align: center;
+    padding: 8px 4px; /* Tăng padding để đồng bộ chiều cao với nút */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    height: 38px; /* Đặt chiều cao cố định */
+    box-sizing: border-box; /* Tính border và padding vào trong width/height */
+    font-size: 16px;
+}
+
+/* Thiết lập chiều cao và padding cụ thể cho Button */
+#apply-discount-btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    height: 38px; /* Đặt chiều cao cố định bằng với Input */
+    font-size: 16px;
+    white-space: nowrap; /* Ngăn chữ bị xuống dòng */
+    /* Màu nền nhạt để giống hình */
+    background-color: #e0e0e0;
+    color: #333;
+    border: 1px solid #ccc;
+}

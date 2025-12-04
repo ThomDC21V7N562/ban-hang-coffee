@@ -1,0 +1,273 @@
+/* --- Base Styles (Mobile First) --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Màu nền nhẹ nhàng */
+    min-height: 100vh;
+}
+
+.form-container {
+    max-width: 500px; /* Chiều rộng tối đa cho mobile */
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.form-header .back-btn {
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+}
+
+.form-header h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.form-header .save-btn {
+    background: none;
+    border: none;
+    color: #007bff; /* Màu xanh dương */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Main Form Content */
+.form-main {
+    padding: 20px 15px;
+    flex-grow: 1;
+}
+
+/* Profile Picture */
+.profile-pic-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-pic-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #e0f2f7; /* Màu xanh nhạt */
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #888;
+    font-size: 40px;
+}
+
+.profile-pic-placeholder .camera-icon {
+    position: absolute;
+    bottom: 0;
+    right: -5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.input-group .required {
+    color: red;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    appearance: none; /* Bỏ style mặc định của select */
+    background-color: #f7f7f7;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: white;
+}
+
+/* Input with Icon (Date) */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon input {
+    padding-right: 40px; /* Để chừa chỗ cho icon */
+}
+
+.input-with-icon i {
+    position: absolute;
+    right: 15px;
+    color: #aaa;
+}
+
+/* Custom Select (Gender) */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    padding-right: 40px; /* Để chừa chỗ cho mũi tên xuống */
+}
+
+.custom-select i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none; /* Đảm bảo click xuyên qua icon để chọn select */
+}
+
+/* Grid Group (Ngày sinh, Giới tính) */
+.grid-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia 2 cột bằng nhau */
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Readonly Input */
+input[readonly] {
+    background-color: #f0f0f0;
+    color: #888;
+}
+
+/* Section Titles (Địa chỉ, Liên hệ...) */
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
+    cursor: pointer; /* Cho biết có thể click để mở rộng */
+}
+.section-title:last-of-type {
+    margin-bottom: 0; /* Loại bỏ margin-bottom cho phần tử cuối cùng */
+}
+
+/* --- Media Query cho Desktop/Tablet (trên 768px) --- */
+@media (min-width: 768px) {
+    .form-container {
+        max-width: 900px; /* Rộng hơn cho desktop */
+        margin: 40px auto; /* Căn giữa và có khoảng cách trên dưới */
+        border-radius: 12px; /* Bo tròn góc */
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        flex-direction: row; /* Thay đổi bố cục thành hàng (header và main riêng biệt) */
+        min-height: 80vh; /* Chiều cao tối thiểu */
+    }
+
+    .form-header {
+        position: static; /* Không cố định trên desktop */
+        border-bottom: none;
+        padding: 20px;
+        flex-direction: column; /* Đặt lại thành cột để dễ dàng căn chỉnh */
+        align-items: flex-start; /* Căn trái */
+        width: 250px; /* Chiều rộng cố định cho sidebar/header bên trái */
+        background-color: #f7f7f7;
+        border-right: 1px solid #eee;
+        justify-content: flex-start;
+    }
+
+    .form-header h1 {
+        text-align: left;
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    
+    .form-header .back-btn {
+        margin-bottom: 20px;
+    }
+
+    .form-header .save-btn {
+        margin-top: auto; /* Đẩy nút Lưu xuống cuối header (nếu muốn) */
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        align-self: flex-end; /* Căn phải nút Lưu */
+    }
+
+    .form-main {
+        padding: 30px;
+        flex-grow: 1; /* Chiếm phần còn lại */
+    }
+
+    .profile-pic-container {
+        /* Có thể giữ nguyên hoặc điều chỉnh nếu muốn đặt ảnh profile ở sidebar */
+        margin-bottom: 40px;
+    }
+
+    .customer-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Chia form thành 2 cột chính */
+        gap: 20px 30px; /* Khoảng cách giữa các cột và hàng */
+    }
+
+    .input-group {
+        margin-bottom: 0; /* Loại bỏ margin-bottom cũ */
+    }
+
+    /* Một số trường có thể muốn chiếm toàn bộ chiều rộng */
+    .input-group:nth-of-type(1), /* Họ và tên */
+    .input-group:nth-of-type(2), /* Số điện thoại 1 */
+    .input-group:nth-of-type(3), /* Số điện thoại 2 */
+    .input-group:nth-of-type(6) { /* Mã khách hàng */
+        grid-column: span 2; /* Chiếm cả 2 cột */
+    }
+    
+    .grid-group { /* Ngày sinh và Giới tính sẽ tự động nằm trên 2 cột */
+        grid-column: span 2; /* Để giữ chúng trong cùng một hàng */
+        gap: 30px;
+    }
+
+    .section-title {
+        grid-column: span 2; /* Chiếm toàn bộ chiều rộng form */
+        padding: 20px 0 10px;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+}

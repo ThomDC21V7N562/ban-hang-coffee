@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Khách Hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header h2 { margin: 0; color: #333; }
+        .search-controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        #customer-search-input { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        #add-customer-btn { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .customer-item { 
+            display: flex; justify-content: space-between; padding: 15px; margin-bottom: 10px; 
+            background-color: #e9ecef; border-radius: 4px; cursor: pointer; 
+            border-left: 5px solid #007bff; transition: background-color 0.2s;
+        }
+        .customer-item:hover { background-color: #dee2e6; }
+        .customer-name { font-weight: bold; font-size: 1.1em; color: #007bff; }
+        .customer-phone, .total-spent, .last-visit { font-size: 0.9em; color: #666; display: block; }
+        .customer-info, .customer-stats { flex-basis: 48%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Quản Lý Khách Hàng</h2>
+            <a href="desktop-pos.html" style="text-decoration:none; color: #007bff;"><i class="fas fa-arrow-left"></i> Quay lại Bán hàng</a>
+        </div>
+
+        <div class="search-controls">
+            <input type="text" id="customer-search-input" placeholder="Tìm kiếm theo Tên, SĐT hoặc Mã khách hàng...">
+            <a href="add-customer.html" id="add-customer-btn" style="text-decoration:none; padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;"><i class="fas fa-plus"></i> Thêm mới</a>
+        </div>
+
+        <div id="customer-list">
+            </div>
+    </div>
+    
+    <script src="khach-hang.js"></script>
+</body>
+</html>
