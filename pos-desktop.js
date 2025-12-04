@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // 1. Dữ liệu sản phẩm MẪU
-    const products = [
+   function loadAllProducts() {
+    const defaultProducts = [
         { id: 'SP001', name: 'Cà Phê Đen Đá', price: 25000, category: 'ca-phe', icon: 'fas fa-mug-hot' },
         { id: 'SP002', name: 'Latte Nóng/Lạnh', price: 45000, category: 'ca-phe', icon: 'fas fa-coffee' },
         { id: 'SP003', name: 'Trà Đào Cam Sả', price: 38000, category: 'tra', icon: 'fas fa-lemon' },
@@ -109,6 +110,29 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'SP008', name: 'Nước Ép Cam', price: 45000, category: 'tra', icon: 'fas fa-glass-water' },
     ];
 
+    // Lấy sản phẩm mới từ Local Storage
+    const storedProductsRaw = localStorage.getItem('products');
+    let newProducts = storedProductsRaw ? JSON.parse(storedProductsRaw) : [];
+
+    // Cần thêm icon mặc định cho sản phẩm mới nếu chúng không có
+    newProducts = newProducts.map(p => ({
+        ...p,
+        // Đảm bảo có thuộc tính icon và price là số
+        icon: p.imageUrl ? '' : 'fas fa-concierge-bell', // Dùng icon chuông nếu không có ảnh Base64
+        price: parseFloat(p.price), // <--- CHÚ Ý: ĐÃ THÊM DẤU PHẨY Ở ĐÂY
+        // SỬA LỖI LOGIC: Đảm bảo sản phẩm mới có category để lọc đúng
+        category: p.category || 'khac'
+    }));
+    
+    // Gộp sản phẩm mặc định và sản phẩm mới (ưu tiên sản phẩm mới)
+    // Loại bỏ sản phẩm mặc định nếu có ID trùng với sản phẩm mới
+    const combinedProducts = [
+        ...defaultProducts.filter(d => !newProducts.some(n => n.id === d.id)),
+        ...newProducts
+    ];
+
+    return combinedProducts;
+    }
     // 2. Biến lưu trữ đơn hàng hiện tại
     let currentOrder = {}; 
     
@@ -147,38 +171,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // START: HÀM TÍNH TOÁN VÀ RENDER ĐƠN HÀNG
     // ----------------------------------------------------
 
-    function renderProductGrid(filter = '') {
-        if (!productGrid) return;
-        productGrid.innerHTML = '';
-        const [type, value] = filter.split(':');
+ function renderProductGrid(filter = '') {
+    if (!productGrid) return;
+    productGrid.innerHTML = '';
+    const [type, value] = filter.split(':');
 
-        const filteredProducts = products.filter(product => {
-            if (type === 'category' && value !== 'all') {
-                return product.category === value;
-            }
-            if (type === 'search' && value) {
-                return product.name.toLowerCase().includes(value.toLowerCase()) || 
-                             product.id.toLowerCase().includes(value.toLowerCase());
-            }
-            return true;
-        });
+    // Dùng hàm loadAllProducts thay vì biến 'products' tĩnh
+    const allProducts = loadAllProducts(); 
 
-        filteredProducts.forEach(product => {
-            const item = document.createElement('button');
-            item.className = 'product-item';
-            item.dataset.id = product.id;
-            
-            item.innerHTML = `
-                <i class="${product.icon}"></i>
-                <span>${product.name}</span>
-                <span class="product-id-code">SP${product.id.split('SP')[1]}</span> 
-                <span class="price">${formatCurrency(product.price)}</span>
-            `;
-            item.addEventListener('click', () => addToOrder(product));
-            productGrid.appendChild(item);
-        });
-    }
+    const filteredProducts = allProducts.filter(product => {
+        if (type === 'category' && value !== 'all') {
+            return product.category === value;
+        }
+        if (type === 'search' && value) {
+        // Tìm kiếm theo Tên, ID hoặc Code
+        const query = value.toLowerCase();
+        return product.name.toLowerCase().includes(query) || 
+               (product.id && product.id.toLowerCase().includes(query)) || 
+               (product.code && product.code.toLowerCase().includes(query)); 
+        }
+        // SỬA LỖI CÚ PHÁP: Cần return true cho tất cả các trường hợp khác (ví dụ: category:all)
+        return true;
+    }); // <--- HÀM .filter() KẾT THÚC ĐÚNG VỊ TRÍ NÀY
 
+    // Vòng lặp hiển thị sản phẩm
+    filteredProducts.forEach(product => {
+        const item = document.createElement('button');
+        item.className = 'product-item';
+        // Ta dùng ID được tạo từ Date.now()
+        item.dataset.id = product.id; 
+        
+        // Kiểm tra xem sản phẩm có ảnh Base64 không (là sản phẩm mới)
+        const isImage = product.imageUrl && product.imageUrl.startsWith('data:');
+        const imageContent = isImage 
+                             ? `<img src="${product.imageUrl}" alt="${product.name}" class="product-img">`
+                             : `<i class="${product.icon}"></i>`; // Icon nếu là sản phẩm mặc định
+
+        item.innerHTML = `
+            ${imageContent}
+            <span>${product.name}</span>
+            <span class="product-id-code">${product.code || product.id}</span> 
+            <span class="price">${formatCurrency(product.price)}</span>
+        `;
+        item.addEventListener('click', () => addToOrder(product));
+        productGrid.appendChild(item);
+    });
+}
     function addToOrder(product) {
         if (currentOrder[product.id]) {
             currentOrder[product.id].quantity += 1;
@@ -190,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // HÀM CẬP NHẬT ĐƠN HÀNG VÀ TÍNH TỔNG/GIẢM GIÁ
     function updateOrderList() {
-        if (!orderList) return;
+        if (!orderList) return; // <--- SỬA LỖI: Dùng 'orderList' (chữ L viết hoa)
         orderList.innerHTML = '';
         let currentSubtotal = 0; // Tạm tính
 
