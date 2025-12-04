@@ -100,8 +100,48 @@
         productForm.addEventListener('submit', function(event) {
             // Ngăn chặn hành vi mặc định của form (tránh tải lại trang)
             event.preventDefault();
+        // 1. Thu thập dữ liệu
+        const name = document.getElementById('product-name').value;
+        const code = document.getElementById('product-code').value;
+        const category = document.getElementById('product-category').value;
+        const price = document.getElementById('product-price').value;
+        const description = document.getElementById('product-description').value;
+        const imageFile = imageInput.files[0];
 
-            // Sử dụng FormData để thu thập tất cả dữ liệu, bao gồm cả file
+        // Tạo ID đơn giản (thay thế cho ID từ Database)
+        const newProductId = Date.now();
+
+        // 2. Chuẩn bị đối tượng sản phẩm mới
+    const newProduct = {
+        id: newProductId,
+        name: name,
+        code: code,
+        category: category,
+        price: parseFloat(price), // Chuyển giá thành số
+        description: description,
+        // Lưu trữ hình ảnh dưới dạng Base64 để hiển thị (chỉ dùng cho mục đích Local Storage)
+        imageUrl: imagePreview.style.backgroundImage.replace(/url\(['"](.+)['"]\)/, '$1') || '', 
+        // Nếu không có ảnh, dùng chuỗi rỗng
+    };
+
+    // 3. Lấy danh sách sản phẩm hiện có từ Local Storage
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+    
+    // 4. Thêm sản phẩm mới vào danh sách
+    products.push(newProduct);
+
+    // 5. Lưu lại danh sách đã cập nhật vào Local Storage
+    localStorage.setItem('products', JSON.stringify(products));
+    
+    console.log("Sản phẩm đã được lưu vào Local Storage:", newProduct);
+
+    // 6. Thông báo và Chuyển hướng về trang bán hàng
+    alert('✅ Lưu sản phẩm thành công và đã cập nhật Local Storage!');
+    
+    // CHUYỂN HƯỚNG về trang bán hàng để nó tự động tải lại dữ liệu
+    window.location.href = 'desktop-pos.html';
+    
+    // Sử dụng FormData để thu thập tất cả dữ liệu, bao gồm cả file
             const formData = new FormData(productForm);
             
             // Tạo đối tượng JSON/JavaScript để xem dữ liệu (Nếu không có file ảnh)
