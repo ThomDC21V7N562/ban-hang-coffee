@@ -13,7 +13,46 @@ body, html {
     max-width: 1400px;
     margin: 0 auto;
 }
+.product-panel {
+    display: flex;
+    flex-direction: column; /* Sắp xếp header, category, và product-list theo chiều dọc */
+    flex-grow: 1; /* Chiếm không gian còn lại (bên trái) */
+    overflow: hidden; /* Quan trọng để cuộn bên trong product-list */
+}
 
+.product-grid {
+    flex-grow: 1; /* Rất quan trọng: làm cho nó chiếm hết không gian còn lại */
+    overflow-y: auto; /* Thêm thanh cuộn khi danh sách quá dài */
+    padding: 10px;
+    
+    /* Bố cục Grid: Hiển thị 4 cột sản phẩm trên 1 hàng */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tự động chia cột */
+    gap: 10px; /* Khoảng cách giữa các sản phẩm */
+}
+
+.product-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Đẩy tên/giá lên trên/xuống dưới */
+    padding: 10px;
+    height: 120px; /* Chiều cao cố định cho mỗi ô sản phẩm */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: center;
+}
+
+.product-item i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.product-item .price {
+    font-weight: bold;
+    color: #e67e22; /* Màu cam nổi bật */
+}
 /* --- CỘT TRÁI: DANH SÁCH SẢN PHẨM --- */
 .col-left {
     flex: 3; /* Chiếm 60% màn hình */
@@ -541,4 +580,5 @@ body, html {
     background-color: #e0e0e0;
     color: #333;
     border: 1px solid #ccc;
+
 }
