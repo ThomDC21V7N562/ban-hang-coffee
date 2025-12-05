@@ -3,13 +3,14 @@
 // =========================================================================
 
 // Biến lưu trữ giá trị giảm giá (mặc định 0%)
-let discountPercent = 0; 
-let currentCustomer = { id: 'KhachLe', name: 'Khách hàng' }; 
+let discountPercent = 0;
+let currentCustomer = { id: 'KhachLe', name: 'Khách hàng' };
 let currentUsername = localStorage.getItem('currentUser');
 let userRole = localStorage.getItem('userRole');
 
 // Hàm Định dạng tiền tệ
 function formatCurrency(amount) {
+    if (isNaN(amount)) return '0đ';
     return amount.toLocaleString('vi-VN') + 'đ';
 }
 
@@ -80,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PHÂN QUYỀN VÀ KIỂM TRA ĐĂNG NHẬP ---
     if (!userRole) {
         alert('Phiên làm việc hết hạn. Vui lòng đăng nhập lại.');
-        window.location.href = 'login.html'; 
-        return; 
-    } 
+        window.location.href = 'login.html';
+        return;
+    }
     
     // Hiển thị tên người dùng và vai trò
     if (welcomeText) {
@@ -100,14 +101,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Dữ liệu sản phẩm MẪU
    function loadAllProducts() {
     const defaultProducts = [
-        { id: 'SP001', name: 'Cà Phê Đen Đá', price: 25000, category: 'ca-phe', icon: 'fas fa-mug-hot' },
-        { id: 'SP002', name: 'Latte Nóng/Lạnh', price: 45000, category: 'ca-phe', icon: 'fas fa-coffee' },
-        { id: 'SP003', name: 'Trà Đào Cam Sả', price: 38000, category: 'tra', icon: 'fas fa-lemon' },
-        { id: 'SP004', name: 'Trà Sen Vàng', price: 40000, category: 'tra', icon: 'fas fa-leaf' },
-        { id: 'SP005', name: 'Sinh Tố Bơ', price: 55000, category: 'sinh-to', icon: 'fas fa-blender' },
-        { id: 'SP006', name: 'Bánh Mousse Chanh Leo', price: 45000, category: 'banh', icon: 'fas fa-birthday-cake' },
-        { id: 'SP007', name: 'Americano', price: 35000, category: 'ca-phe', icon: 'fas fa-mug-hot' },
-        { id: 'SP008', name: 'Nước Ép Cam', price: 45000, category: 'tra', icon: 'fas fa-glass-water' },
+        { id: 'SP001', name: 'Cà Phê Đen Đá', price: 25000, category: 'caphe', icon: 'fas fa-mug-hot' },
+        { id: 'SP002', name: 'Latte Nóng/Lạnh', price: 45000, category: 'caphe', icon: 'fas fa-coffee' },
+        { id: 'SP003', name: 'Trà Đào Cam Sả', price: 38000, category: 'tra_traicay', icon: 'fas fa-lemon' },
+        { id: 'SP004', name: 'Trà Sen Vàng', price: 40000, category: 'tra_traicay', icon: 'fas fa-leaf' },
+        { id: 'SP005', name: 'Sinh Tố Bơ', price: 55000, category: 'sinhto', icon: 'fas fa-blender' },
+        { id: 'SP006', name: 'Bánh Mousse Chanh Leo', price: 45000, category: 'banh_annhe', icon: 'fas fa-birthday-cake' },
+        { id: 'SP007', name: 'Americano', price: 35000, category: 'caphe', icon: 'fas fa-mug-hot' },
+        { id: 'SP008', name: 'Nước Ép Cam', price: 45000, category: 'tra_traicay', icon: 'fas fa-glass-water' },
+        // Thêm sản phẩm mẫu cho mục 'khac'
+        { id: 'SP009', name: 'Khăn giấy', price: 2000, category: 'khac', icon: 'fas fa-box' },
     ];
 
     // Lấy sản phẩm mới từ Local Storage
@@ -118,8 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     newProducts = newProducts.map(p => ({
         ...p,
         // Đảm bảo có thuộc tính icon và price là số
-        icon: p.imageUrl ? '' : 'fas fa-concierge-bell', // Dùng icon chuông nếu không có ảnh Base64
-        price: parseFloat(p.price), // <--- CHÚ Ý: ĐÃ THÊM DẤU PHẨY Ở ĐÂY
+        icon: p.imageUrl ? '' : 'fas fa-concierge-bell',
+        price: parseFloat(p.price) || 0, // Đảm bảo price là số hợp lệ
         // SỬA LỖI LOGIC: Đảm bảo sản phẩm mới có category để lọc đúng
         category: p.category || 'khac'
     }));
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return combinedProducts;
     }
     // 2. Biến lưu trữ đơn hàng hiện tại
-    let currentOrder = {}; 
+    let currentOrder = {};
     
     
     // ----------------------------------------------------
@@ -145,17 +148,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const customerDisplayElement = document.getElementById('customer-display');
         const searchArea = document.querySelector('.customer-search-area');
         const clearBtn = document.getElementById('clear-customer-btn');
+        const addCustomerLink = document.querySelector('.customer-display-area a[title="Thêm Khách Hàng"]'); // Nút '+' trong customer display
         
         if (customerDisplayElement) {
-            customerDisplayElement.textContent = currentCustomer.name; 
+            customerDisplayElement.textContent = currentCustomer.name;
         }
 
         if (currentCustomer.id === 'KhachLe') {
             if (searchArea) searchArea.style.display = 'block';
             if (clearBtn) clearBtn.style.display = 'none';
+            if (addCustomerLink) addCustomerLink.style.display = 'inline-block';
         } else {
             if (searchArea) searchArea.style.display = 'none';
             if (clearBtn) clearBtn.style.display = 'inline-block';
+            if (addCustomerLink) addCustomerLink.style.display = 'none'; // Ẩn nút thêm nếu đã chọn khách hàng
         }
         
         const searchResultsDiv = document.getElementById('customer-search-results');
@@ -171,52 +177,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // START: HÀM TÍNH TOÁN VÀ RENDER ĐƠN HÀNG
     // ----------------------------------------------------
 
- function renderProductGrid(filter = '') {
-    if (!productGrid) return;
-    productGrid.innerHTML = '';
-    const [type, value] = filter.split(':');
+   function renderProductGrid(filter = '') {
+        if (!productGrid) return;
+        productGrid.innerHTML = '';
+        const [type, value] = filter.split(':');
 
-    // Dùng hàm loadAllProducts thay vì biến 'products' tĩnh
-    const allProducts = loadAllProducts(); 
+        // Dùng hàm loadAllProducts thay vì biến 'products' tĩnh
+        const allProducts = loadAllProducts();
 
-    const filteredProducts = allProducts.filter(product => {
-        if (type === 'category' && value !== 'all') {
-            return product.category === value;
-        }
-        if (type === 'search' && value) {
-        // Tìm kiếm theo Tên, ID hoặc Code
-        const query = value.toLowerCase();
-        return product.name.toLowerCase().includes(query) || 
-               (product.id && product.id.toLowerCase().includes(query)) || 
-               (product.code && product.code.toLowerCase().includes(query)); 
-        }
-        // SỬA LỖI CÚ PHÁP: Cần return true cho tất cả các trường hợp khác (ví dụ: category:all)
-        return true;
-    }); // <--- HÀM .filter() KẾT THÚC ĐÚNG VỊ TRÍ NÀY
+        const filteredProducts = allProducts.filter(product => {
+            if (type === 'category' && value !== 'all') {
+                return product.category === value;
+            }
+            if (type === 'search' && value) {
+                // Tìm kiếm theo Tên, ID hoặc Code
+                const query = value.toLowerCase();
+                return product.name.toLowerCase().includes(query) || 
+                       (product.id && product.id.toLowerCase().includes(query)) || 
+                       (product.code && product.code.toLowerCase().includes(query));
+            }
+            // SỬA LỖI CÚ PHÁP: Cần return true cho tất cả các trường hợp khác (ví dụ: category:all)
+            return true;
+        });
 
-    // Vòng lặp hiển thị sản phẩm
-    filteredProducts.forEach(product => {
-        const item = document.createElement('button');
-        item.className = 'product-item';
-        // Ta dùng ID được tạo từ Date.now()
-        item.dataset.id = product.id; 
-        
-        // Kiểm tra xem sản phẩm có ảnh Base64 không (là sản phẩm mới)
-        const isImage = product.imageUrl && product.imageUrl.startsWith('data:');
-        const imageContent = isImage 
-                             ? `<img src="${product.imageUrl}" alt="${product.name}" class="product-img">`
-                             : `<i class="${product.icon}"></i>`; // Icon nếu là sản phẩm mặc định
+        // Vòng lặp hiển thị sản phẩm
+        filteredProducts.forEach(product => {
+            const item = document.createElement('button');
+            item.className = 'product-item';
+            item.dataset.id = product.id; // Ta dùng ID được tạo từ Date.now()
+            
+            // Kiểm tra xem sản phẩm có ảnh Base64 không (là sản phẩm mới)
+            const isImage = product.imageUrl && product.imageUrl.startsWith('data:');
+            const imageContent = isImage 
+                                 ? `<img src="${product.imageUrl}" alt="${product.name}" class="product-img">`
+                                 : `<i class="${product.icon}"></i>`; // Icon nếu là sản phẩm mặc định
 
-        item.innerHTML = `
-            ${imageContent}
-            <span>${product.name}</span>
-            <span class="product-id-code">${product.code || product.id}</span> 
-            <span class="price">${formatCurrency(product.price)}</span>
-        `;
-        item.addEventListener('click', () => addToOrder(product));
-        productGrid.appendChild(item);
-    });
-}
+            item.innerHTML = `
+                ${imageContent}
+                <span>${product.name}</span>
+                <span class="product-id-code">${product.code || product.id}</span>
+                <span class="price">${formatCurrency(product.price)}</span>
+            `;
+            item.addEventListener('click', () => addToOrder(product));
+            productGrid.appendChild(item);
+        });
+    }
+    
     function addToOrder(product) {
         if (currentOrder[product.id]) {
             currentOrder[product.id].quantity += 1;
@@ -228,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // HÀM CẬP NHẬT ĐƠN HÀNG VÀ TÍNH TỔNG/GIẢM GIÁ
     function updateOrderList() {
-        if (!orderList) return; // <--- SỬA LỖI: Dùng 'orderList' (chữ L viết hoa)
+        if (!orderList) return;
         orderList.innerHTML = '';
         let currentSubtotal = 0; // Tạm tính
 
@@ -259,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Cập nhật hiển thị lên giao diện
         if (subtotalDisplay) subtotalDisplay.textContent = formatCurrency(currentSubtotal);
-        if (discountDisplay) discountDisplay.textContent = `-${formatCurrency(discountAmount)}`; 
-        if (totalAmountDisplay) totalAmountDisplay.textContent = formatCurrency(finalTotal); 
+        if (discountDisplay) discountDisplay.textContent = `-${formatCurrency(discountAmount)}`;
+        if (totalAmountDisplay) totalAmountDisplay.textContent = formatCurrency(finalTotal);
 
         // Gắn sự kiện tăng giảm số lượng
         orderList.querySelectorAll('.qty-btn').forEach(btn => {
@@ -275,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 currentOrder[id].quantity -= 1;
                 if (currentOrder[id].quantity <= 0) {
-                    delete currentOrder[id]; 
+                    delete currentOrder[id];
                 }
             }
             updateOrderList();
@@ -292,19 +298,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
 
     // LOGIC ÁP DỤNG GIẢM GIÁ (%)
-    if (applyDiscountBtn && discountInput) {
-        applyDiscountBtn.addEventListener('click', () => {
-            let newDiscount = parseInt(discountInput.value);
+    function applyDiscount() {
+        let newDiscount = parseInt(discountInput.value);
             
-            if (isNaN(newDiscount) || newDiscount < 0) {
-                newDiscount = 0;
-            } else if (newDiscount > 100) {
-                newDiscount = 100;
+        if (isNaN(newDiscount) || newDiscount < 0) {
+            newDiscount = 0;
+        } else if (newDiscount > 100) {
+            newDiscount = 100;
+        }
+        
+        discountPercent = newDiscount;
+        discountInput.value = discountPercent;
+        updateOrderList(); // Gọi lại để tính toán lại tổng tiền
+    }
+
+    if (discountInput) {
+        // Áp dụng khi nhấn nút
+        if (applyDiscountBtn) {
+            applyDiscountBtn.addEventListener('click', applyDiscount);
+        }
+        // Áp dụng khi nhấn Enter hoặc thay đổi giá trị (tăng UX)
+        discountInput.addEventListener('change', applyDiscount);
+        discountInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                applyDiscount();
             }
-            
-            discountPercent = newDiscount;
-            discountInput.value = discountPercent;
-            updateOrderList(); // Gọi lại để tính toán lại tổng tiền
         });
     }
 
@@ -346,10 +364,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`Xác nhận thanh toán ${formatCurrency(totalAfterDiscount)}. Hóa đơn cho: ${currentCustomer.name}`);
                 
                 // Reset sau khi thanh toán
-                currentOrder = {}; 
+                currentOrder = {};
                 currentCustomer = { id: 'KhachLe', name: 'Khách hàng' };
-                discountPercent = 0; 
-                discountInput.value = 0; // Reset input giảm giá
+                discountPercent = 0;
+                if (discountInput) discountInput.value = 0; // Reset input giảm giá
                 
                 updateOrderList();
                 updateCustomerDisplay();
@@ -392,10 +410,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Cập nhật chi tiêu cho khách hàng
         if (currentCustomer.id !== 'KhachLe') {
-            let customers = loadCustomers(); 
+            let customers = loadCustomers();
             const customerIndex = customers.findIndex(c => c.id === currentCustomer.id);
             if (customerIndex !== -1) {
                 customers[customerIndex].totalSpent = (customers[customerIndex].totalSpent || 0) + finalTotal;
+                customers[customerIndex].lastVisit = new Date().getTime(); // Cập nhật lần truy cập cuối
                 localStorage.setItem('customers', JSON.stringify(customers));
             }
         }
@@ -454,7 +473,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- KHỞI TẠO LẦN ĐẦU ---
-    renderProductGrid('category:all');
-    updateCustomerDisplay(); 
-    updateOrderList(); 
+    // Sửa lỗi: Đảm bảo tên category trong JS khớp với tên trong HTML
+    renderProductGrid('category:all'); 
+    updateCustomerDisplay();
+    updateOrderList();
 });
