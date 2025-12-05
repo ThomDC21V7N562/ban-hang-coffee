@@ -11,108 +11,95 @@
 
     <div class="pos-container">
         
-        <section class="col-left product-panel">
-            
-           <header class="panel-header-full">
-    <div class="search-actions-row">
-        <input type="text" id="search-input" placeholder="Tên, mã hàng, mã vạch, lô date..." class="search-input">
+      <section class="col-left product-panel">
+               
+    <header class="panel-header-full">
+        <div class="search-actions-row">
+            <input type="text" id="search-input" placeholder="Tên, mã hàng, mã vạch, lô date..." class="search-input">
+            <a href="add-customer.html" class="icon-btn-box" id="add-customer-btn-link" title="Thêm Khách Hàng">
+                <i class="fas fa-user-plus"></i>
+            </a>
+            <button class="icon-btn-box" title="Quét mã/Mở rộng">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </button>
+        </div>
+
+        <div class="customer-selection-area-wrapper">
+            <a href="hoa-don.html" class="icon-btn-box view-invoice-btn" title="Xem Hóa Đơn">
+                <i class="fas fa-file-invoice"></i> <span>Xem hóa đơn</span>
+            </a>
+            <div class="user-info-actions">
+                <a href="quanlynhanvien.html" class="user-info-link" title="Quản lý Nhân viên">
+                    <span id="welcome-user" class="user-info-text">
+                        <i class="fas fa-user-circle"></i> admin (Admin)
+                    </span>
+                </a>
+                <button class="icon-btn-box logout-btn" onclick="logout()" title="Đăng xuất khỏi hệ thống">
+                    <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
+                </button>
+            </div>
+            <div class="customer-selection-container">
+                <div id="selected-customer-display" class="customer-display-area">
+                    <i class="fas fa-user"></i>
+                    <strong id="customer-display">Khách hang</strong>
+                    <button id="clear-customer-btn" style="display:none;"><i class="fas fa-times"></i></button>
+                    <a href="add-customer.html" class="icon-btn-box" id="add-customer-btn-link" title="Thêm Khách Hàng">
+                        <i class="fas fa-user-plus"></i>
+                    </a>
+                </div>
+                <div class="customer-search-area">
+                    <input type="text" id="customer-search-input" placeholder="Tìm tên/SĐT khách hàng...">
+                    <div id="customer-search-results" class="customer-search-results-dropdown">
+                    </div>
+                </div>
+            </div>
+        </div>
         
-        <a href="add-customer.html" class="icon-btn-box" id="add-customer-btn-link" title="Thêm Khách Hàng">
-            <i class="fas fa-user-plus"></i>
+        <div class="filter-customer-row">
+            <div class="price-list-select">
+                <i class="fas fa-heart"></i>
+                <span>Bảng giá chung</span>
+            </div>
+            <i class="fas fa-sliders-h filter-icon-menu" title="Lọc nâng cao"></i>
+        </div>
+    </header>
+                 
+    
+    <div class="category-tabs">
+        <button class="tab-btn active" data-category="all">Tất Cả</button>
+        <button class="tab-btn" data-category="caphe">Cà Phê</button>
+        <button class="tab-btn" data-category="tra_traicay">Trà/Trái Cây</button>
+        <button class="tab-btn" data-category="sinhto">Sinh Tố</button>
+        <button class="tab-btn" data-category="banh_annhe">Bánh/Ăn nhẹ</button>
+        <button class="tab-btn" data-category="khac">Khác</button>
+        <a href="them_san_pham_moi.html" class="add-item-btn" id="btn-add-product" title="Thêm Sản Phẩm Mới/Cập nhật Loại Nước Mới">
+            <i class="fas fa-plus"></i>
         </a>
-        
-        <button class="icon-btn-box" title="Quét mã/Mở rộng">
-            <i class="fas fa-expand-arrows-alt"></i>
+    </div>
+
+    <div id="product-list" class="product-grid">
+        <button class="product-item" data-id="SP001" data-price="25000">
+            <i class="fas fa-mug-hot"></i> <span>Cà Phê Đen Đá</span>
+            <span class="product-id-code">SP001</span>
+            <span class="price">25.000đ</span>
+        </button>
+        <button class="product-item" data-id="SP002" data-price="35000">
+            <i class="fas fa-coffee"></i> <span>Latte Nóng</span>
+            <span class="product-id-code">SP002</span>
+            <span class="price">35.000đ</span>
+        </button>
+        <button class="product-item" data-id="SP003" data-price="40000">
+            <i class="fas fa-leaf"></i> <span>Trà Sữa Trân Châu</span>
+            <span class="product-id-code">SP003</span>
+            <span class="price">40.000đ</span>
+        </button>
+        <button class="product-item" data-id="SP004" data-price="45000">
+            <i class="fas fa-birthday-cake"></i> <span>Bánh Mousse Cam</span>
+            <span class="product-id-code">SP004</span>
+            <span class="price">45.000đ</span>
         </button>
     </div>
-
-    <div class="customer-selection-area-wrapper">
-        <a href="hoa-don.html" class="icon-btn-box view-invoice-btn" title="Xem Hóa Đơn">
-            <i class="fas fa-file-invoice"></i> <span>Xem hóa đơn</span>
-        </a>
-        <div class="user-info-actions">
-    <a href="quanlynhanvien.html" class="user-info-link" title="Quản lý Nhân viên">
-    <span id="welcome-user" class="user-info-text">
-        <i class="fas fa-user-circle"></i> admin (Admin) 
-    </span>
-</a>
-    
-    <button class="icon-btn-box logout-btn" onclick="logout()" title="Đăng xuất khỏi hệ thống">
-        <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
-    </button>
-    </div>
-        <div class="customer-selection-container">
-            <div id="selected-customer-display" class="customer-display-area">
-                <i class="fas fa-user"></i>
-                <strong id="customer-display">Khách hang</strong>
-                <button id="clear-customer-btn" style="display:none;"><i class="fas fa-times"></i></button>
-                <a href="add-customer.html" class="icon-btn-box" id="add-customer-btn-link" title="Thêm Khách Hàng">
-                  <i class="fas fa-user-plus"></i>
-                </a>
-            </div>
-            
-            <div class="customer-search-area">
-                
-                <input type="text" id="customer-search-input" placeholder="Tìm tên/SĐT khách hàng...">
-                <div id="customer-search-results" class="customer-search-results-dropdown">
-                    </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="filter-customer-row">
-        <div class="price-list-select">
-            <i class="fas fa-heart"></i>
-            <span>Bảng giá chung</span>
-        </div>
-        <i class="fas fa-sliders-h filter-icon-menu" title="Lọc nâng cao"></i>
-    </div>
-</header>
-             
-     
-<div class="category-tabs">
-    <button class="tab-btn active" data-category="all">Tất Cả</button>
-    
-    <button class="tab-btn" data-category="caphe">Cà Phê</button>
-    <button class="tab-btn" data-category="tra_traicay">Trà/Trái Cây</button>
-    <button class="tab-btn" data-category="sinhto">Sinh Tố</button>
-    <button class="tab-btn" data-category="banh_annhe">Bánh/Ăn nhẹ</button>
-    
-    <button class="tab-btn" data-category="khac">Khác</button>
-
-    <a href="them_san_pham_moi.html" class="add-item-btn" id="btn-add-product" title="Thêm Sản Phẩm Mới/Cập nhật Loại Nước Mới">
-        <i class="fas fa-plus"></i>
-    </a>
-</div>
-
-                
-            </div>
-
-            <div id="product-list" class="product-grid">
-    <button class="product-item" data-id="SP001" data-price="25000">
-        <i class="fas fa-mug-hot"></i> <span>Cà Phê Đen Đá</span>
-        <span class="product-id-code">SP001</span>
-        <span class="price">25.000đ</span>
-    </button>
-    
-    <button class="product-item" data-id="SP002" data-price="35000">
-        <i class="fas fa-coffee"></i> <span>Latte Nóng</span>
-        <span class="product-id-code">SP002</span>
-        <span class="price">35.000đ</span>
-    </button>
-    <button class="product-item" data-id="SP003" data-price="40000">
-        <i class="fas fa-leaf"></i> <span>Trà Sữa Trân Châu</span>
-        <span class="product-id-code">SP003</span>
-        <span class="price">40.000đ</span>
-    </button>
-    <button class="product-item" data-id="SP004" data-price="45000">
-        <i class="fas fa-birthday-cake"></i> <span>Bánh Mousse Cam</span>
-        <span class="product-id-code">SP004</span>
-        <span class="price">45.000đ</span>
-    </button>
-    </div>
-        </section>
-
+</section>
         <section class="col-right order-panel">
             <h2>Đơn Hàng Hiện Tại</h2>
             
@@ -161,6 +148,7 @@
     <script src="pos-desktop.js"></script> 
 </body>
 </html>
+
 
 
 
