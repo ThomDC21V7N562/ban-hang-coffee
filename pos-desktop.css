@@ -21,14 +21,17 @@ body, html {
 }
 
 .product-grid {
-    flex-grow: 1; /* Rất quan trọng: làm cho nó chiếm hết không gian còn lại */
-    overflow-y: auto; /* Thêm thanh cuộn khi danh sách quá dài */
-    padding: 10px;
-    
-    /* Bố cục Grid: Hiển thị 4 cột sản phẩm trên 1 hàng */
+    flex-grow: 1;
+    padding: 15px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Tự động chia cột */
-    gap: 10px; /* Khoảng cách giữa các sản phẩm */
+    /* Tự động chia cột và khoảng cách */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    overflow-y: auto;
+    
+    /* --- BỔ SUNG QUAN TRỌNG ĐỂ KÉO LÊN TRÊN CÙNG --- */
+    align-content: start; /* Hoặc flex-start */ 
+    /* Dùng 'start' để căn chỉnh nội dung lưới lên phía trên */
 }
 
 .product-item {
@@ -582,3 +585,4 @@ body, html {
     border: 1px solid #ccc;
 
 }
+
